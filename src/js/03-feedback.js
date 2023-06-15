@@ -6,10 +6,14 @@ const textareaEl = document.querySelector('textarea');
 let valueObj = {};
 let storageKey = 'feedback-form-state';
 
-formEl.addEventListener('input', e => {
-  valueObj[e.target.name] = e.target.value;
-  localStorage.setItem(storageKey, JSON.stringify(valueObj));
-});
+formEl.addEventListener(
+  'input',
+  throttle(e => {
+    valueObj[e.target.name] = e.target.value;
+    localStorage.setItem(storageKey, JSON.stringify(valueObj));
+  }),
+  500
+);
 
 function saveCondition() {
   const getData = localStorage.getItem(storageKey);
@@ -27,6 +31,7 @@ saveCondition();
 
 formEl.addEventListener('submit', e => {
   e.preventDefault();
-  localStorage.clear();
+  console.log(localStorage.getItem(storageKey));
+  localStorage.removeItem(storageKey);
   e.target.reset();
 });
