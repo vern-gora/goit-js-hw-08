@@ -3,8 +3,8 @@ import throttle from 'lodash.throttle';
 const formEl = document.querySelector('form');
 const inputEl = document.querySelector('input');
 const textareaEl = document.querySelector('textarea');
-let valueObj = {};
 let storageKey = 'feedback-form-state';
+let valueObj = JSON.parse(localStorage.getItem(storageKey)) || {};
 
 formEl.addEventListener(
   'input',
