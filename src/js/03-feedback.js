@@ -11,27 +11,23 @@ formEl.addEventListener(
   throttle(e => {
     valueObj[e.target.name] = e.target.value;
     localStorage.setItem(storageKey, JSON.stringify(valueObj));
-  }),
-  500
+  }, 500)
 );
+
+formEl.addEventListener('submit', e => {
+  e.preventDefault();
+  console.log(JSON.parse(localStorage.getItem(storageKey)));
+  e.currentTarget.reset();
+  localStorage.removeItem(storageKey);
+});
 
 function saveCondition() {
   const getData = localStorage.getItem(storageKey);
   if (getData) {
     const { email, message } = JSON.parse(getData);
-    formEl.elements.email.value = email;
-    formEl.elements.message.value = message;
-  } else {
-    formEl.elements.email.value = null;
-    formEl.elements.message.value = null;
+    inputEl.value = email !== undefined ? email : '';
+    textareaEl.value = message !== undefined ? message : '';
   }
 }
 
 saveCondition();
-
-formEl.addEventListener('submit', e => {
-  e.preventDefault();
-  console.log(localStorage.getItem(storageKey));
-  localStorage.removeItem(storageKey);
-  e.target.reset();
-});
